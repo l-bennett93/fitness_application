@@ -1,5 +1,4 @@
 import os
-
 from werkzeug.utils import secure_filename
 from flask import (
     Flask,
@@ -7,26 +6,30 @@ from flask import (
     send_from_directory,
     request,
     redirect,
-    url_for
+    url_for,
+    Blueprint
 )
+from project import app
+
+basic_blueprint = Blueprint(__name__, "basic_blueprint")
 
 
-@app.route("/")
+@basic_blueprint.route("/")
 def hello_world():
     return jsonify(hello="world")
 
 
-@app.route("/static/<path:filename>")
+@basic_blueprint.route("/static/<path:filename>")
 def static_files(filename):
     return send_from_directory(app.config["STATIC_FOLDER"], filename)
 
 
-@app.route("/media/<path:filename>")
+@basic_blueprint.route("/media/<path:filename>")
 def mediafiles(filename):
     return send_from_directory(app.config["MEDIA_FOLDER"], filename)
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@basic_blueprint.route("/upload", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]

@@ -1,5 +1,6 @@
 from project import db
 
+
 class User(db.Model):
     __tablename__ = "users"
 
@@ -9,5 +10,3 @@ class User(db.Model):
 
     def __init__(self, email):
         self.email = email
-
-
